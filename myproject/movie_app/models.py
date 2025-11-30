@@ -1,79 +1,70 @@
 from django.db import models
 
-# Create your models here.
-
 class Movie(models.Model):
-    title = models.CharField(max_length=200)
-    release_date = models.DateField()
-    genre = models.CharField(max_length=100)
-    rating = models.FloatField()
-
-    def __str__(self):
-        return self.title
-    
-class actors(models.Model):
-    actor_id = models.IntegerField(primary_key=True)   # existing PK
-    name = models.CharField(max_length=100)
-    birthyear = models.IntegerField(null=True, blank=True)
-
-    def __str__(self):
-        return f"{self.name} ({self.birthyear})"
-    
-class directors(models.Model):
-    director_id = models.IntegerField(primary_key=True)  # existing PK
-    name = models.CharField(max_length=100)
-    birthyear = models.IntegerField(null=True, blank=True)
-
-    def __str__(self):
-        return f"{self.name} ({self.birthyear})"
-
-class movies(models.Model):
-    movie_id = models.AutoField(primary_key=True)  # existing PK
+    movie_id = models.AutoField(primary_key=True)
     title = models.CharField(max_length=200)
     release_year = models.IntegerField()
+    genre = models.CharField(max_length=100)
+    rating = models.FloatField()
     plot = models.TextField()
     runtime = models.CharField(max_length=100)
 
     def __str__(self):
         return f"{self.title} ({self.release_year})"
 
-class cast_crew(models.Model):
-    movie_cast_id = models.AutoField(primary_key=True)  # existing PK
-    movie_id = models.IntegerField()
-    actor_id = models.IntegerField()
-    director_id = models.IntegerField()
+class Actor(models.Model):
+    actor_id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=100)
+    birthyear = models.IntegerField(null=True, blank=True)
 
     def __str__(self):
-        return f"Movie ID: {self.movie_id}, Actor ID: {self.actor_id}, Director ID: {self.director_id}"
+        return f"{self.name} ({self.birthyear})"
 
-class users(models.Model):
-    user_id = models.CharField(max_length=100) # existing PK
+class Director(models.Model):
+    director_id = models.IntegerField(primary_key=True)
+    name = models.CharField(max_length=100)
+    birthyear = models.IntegerField(null=True, blank=True)
+
+    def __str__(self):
+        return f"{self.name} ({self.birthyear})"
+
+class CastCrew(models.Model):
+    movie_cast_id = models.AutoField(primary_key=True)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
+    actor = models.ForeignKey(Actor, on_delete=models.CASCADE)
+    director = models.ForeignKey(Director, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.movie.title} - {self.actor.name} - {self.director.name}"
+
+class User(models.Model):
+    user_id = models.CharField(max_length=100, primary_key=True)
     password = models.CharField(max_length=100)
     name = models.CharField(max_length=100)
-    birthday = models.IntegerField()
+    birthyear = models.IntegerField()
     profile_picture = models.CharField(max_length=200)
 
     def __str__(self):
-        return self.username
-    
-class watch_history(models.Model):
-    watched_id = models.AutoField(primary_key=True)  # existing PK
-    user_id = models.CharField(max_length=100)
-    movie_id = models.IntegerField()
+        return self.name
+
+class WatchHistory(models.Model):
+    watched_id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    movie = models.ForeignKey(Movie, on_delete=models.CASCADE)
     watch_date = models.DateField()
     rating = models.FloatField()
     review = models.TextField()
 
     def __str__(self):
-        return f"User ID: {self.user_id}, Movie ID: {self.movie_id}, Watch Date: {self.watch_date}"
+        return f"{self.user.name} watched {self.movie.title} on {self.watch_date}"
 
-class wrapped_summary(models.Model):
-    summary_id = models.AutoField(primary_key=True)  # existing PK
-    user_id = models.CharField(max_length=100)
+class WrappedSummary(models.Model):
+    summary_id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     top_genre = models.CharField(max_length=100)
     top_actor = models.CharField(max_length=100)
     most_watched_movie = models.CharField(max_length=200)
     total_movies_watched = models.IntegerField()
 
     def __str__(self):
-        return f"User ID: {self.user_id}, Top Genre: {self.top_genre}, Top Actor: {self.top_actor}, Most Watched Movie: {self.most_watched_movie}"
+        return f"{self.user.name}'s summary"

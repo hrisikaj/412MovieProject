@@ -10,4 +10,5 @@ staticfiles/
 media/
 .vscode/
 *.swp
+*.env
 
