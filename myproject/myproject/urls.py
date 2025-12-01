@@ -16,7 +16,17 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from movie_app import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', views.index, name='home'),
+    path('dashboard/', views.dashboard, name='dashboard'),
+    path('login/', views.login_view, name='login'),
+    path('logout/', views.logout_view, name='logout'),
+    path('register/', views.register_view, name='register'),
+    path('watch-history/', views.watch_history, name='watch_history'),
+    path('add-movie/', views.add_movie, name='add_movie'),
+    path('edit-entry/<int:entry_id>/', views.edit_watch_entry, name='edit_watch_entry'),
+    path('wrapped/', views.wrapped_summary, name='wrapped_summary'),
 ]
