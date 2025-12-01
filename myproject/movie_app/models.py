@@ -69,12 +69,12 @@ class WatchHistory(models.Model):
     rating = models.FloatField()
     review = models.TextField()
 
-    def __str__(self):
+    def str(self):
         return f"{self.user.name} watched {self.movie.title} on {self.watch_date}"
-    
+
     class Meta:
         db_table = 'watch_history'  # Point to existing 'watch_history' table
-
+        
 class WrappedSummary(models.Model):
     summary_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)

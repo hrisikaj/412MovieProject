@@ -121,8 +121,11 @@ def add_movie(request):
     if request.method == 'POST':
         form = AddMovieForm(request.POST)
         if form.is_valid():
-            watch_entry = form.save(commit=False)
-            
+            movie = form.cleaned_data['movie']
+            rating = form.cleaned_data['rating']
+            review = form.cleaned_data['review']
+            watch_date = form.cleaned_data['watch_date']
+
             # Get or create the custom user
             custom_user, created = CustomUser.objects.get_or_create(
                 user_id=request.user.username,
@@ -133,18 +136,22 @@ def add_movie(request):
                     'profile_picture': ''
                 }
             )
-            watch_entry.user = custom_user
-            watch_entry.watched_id = None  # Let the database auto-generate the ID
-            watch_entry.save()
-            
-            messages.success(request, f"Added '{form.cleaned_data['movie'].title}' to your watch history!")
+
+            WatchHistory.objects.create(
+                user=custom_user,
+                movie=movie,
+                watch_date=watch_date,
+                rating=rating,
+                review=review
+            )
+
+            messages.success(request, f"Added '{movie.title}' to your watch history!")
             return redirect('watch_history')
     else:
         form = AddMovieForm()
-    
+
     context = {'form': form}
     return render(request, 'add_movie.html', context)
-
 
 @login_required(login_url='login')
 def edit_watch_entry(request, entry_id):
