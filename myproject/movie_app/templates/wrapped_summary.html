@@ -1,0 +1,128 @@
+{% extends 'base.html' %}
+
+{% block title %}Movie Wrapped - Movie Wrapped{% endblock %}
+
+{% block extra_css %}
+    <style>
+        .wrapped-container {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 3rem 2rem;
+            border-radius: 15px;
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        .wrapped-title {
+            font-size: 3rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: #FFD700;
+        }
+        
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #FFD700;
+        }
+        
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .wrapped-summary {
+            background: white;
+            color: #333;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-top: 2rem;
+            text-align: left;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    {% if no_data %}
+        <div style="text-align: center; padding: 3rem;">
+            <h1>No Watch History Yet</h1>
+            <p style="color: #666; margin: 1rem 0;">You need to watch and rate some movies to generate your wrapped summary!</p>
+            <a href="{% url 'add_movie' %}" class="btn" style="margin-top: 1rem;">Start Adding Movies</a>
+        </div>
+    {% else %}
+        <div class="wrapped-container">
+            <div class="wrapped-title">🎬 Your Movie Wrapped</div>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem;">Here's your movie summary for 2024!</p>
+            
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-label">Total Movies Watched</div>
+                    <div class="stat-value">{{ total_movies }}</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-label">Average Rating</div>
+                    <div class="stat-value">{{ avg_rating }}/10</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-label">Top Movie</div>
+                    <div class="stat-value" style="font-size: 1.2rem;">{{ top_movie }}</div>
+                </div>
+                
+                <div class="stat-card">
+                    <div class="stat-label">Top Actor</div>
+                    <div class="stat-value" style="font-size: 1.2rem;">{{ top_actor }}</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="wrapped-summary">
+            <h2>Your Summary</h2>
+            
+            {% if wrapped %}
+                <p>
+                    <strong>{{ user_name }}'s Movie Year in Review:</strong>
+                </p>
+                <p>
+                    You watched <strong>{{ total_movies }} movies</strong> this year with an average rating of <strong>{{ avg_rating }}/10</strong>. 
+                    Your highest-rated movie was <strong>{{ top_movie }}</strong>, and you seem to be a fan of <strong>{{ top_actor }}</strong>.
+                </p>
+                {% if wrapped.most_watched_movie %}
+                    <p>Your most watched movie was <strong>{{ wrapped.most_watched_movie }}</strong>.</p>
+                {% endif %}
+            {% else %}
+                <p>
+                    You've been quite the movie fan this year! With <strong>{{ total_movies }} movies</strong> watched and an average rating of <strong>{{ avg_rating }}/10</strong>,
+                    you clearly have great taste in cinema. Your highest-rated movie is <strong>{{ top_movie }}</strong>, and your favorite actor is <strong>{{ top_actor }}</strong>.
+                </p>
+                <p style="margin-top: 1rem; font-style: italic;">
+                    Keep watching and rating movies to get more personalized insights in your next wrapped!
+                </p>
+            {% endif %}
+        </div>
+        
+        <div style="text-align: center; margin-top: 2rem;">
+            <a href="{% url 'add_movie' %}" class="btn">Add More Movies</a>
+            <a href="{% url 'watch_history' %}" class="btn btn-secondary">View All Movies</a>
+            <a href="{% url 'dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+        </div>
+    {% endif %}
+{% endblock %}
