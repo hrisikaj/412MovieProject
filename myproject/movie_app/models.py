@@ -69,7 +69,7 @@ class WatchHistory(models.Model):
     rating = models.FloatField()
     review = models.TextField()
 
-    def str(self):
+    def __str__(self):
         return f"{self.user.name} watched {self.movie.title} on {self.watch_date}"
     
     class Meta:
