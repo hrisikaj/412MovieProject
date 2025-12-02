@@ -69,7 +69,7 @@
     {% else %}
         <div class="wrapped-container">
             <div class="wrapped-title">🎬 Your Movie Wrapped</div>
-            <p style="font-size: 1.2rem; margin-bottom: 2rem;">Here's your movie summary for 2024!</p>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem;">Here's your movie summary!</p>
             
             <div class="stats-grid">
                 <div class="stat-card">
@@ -97,26 +97,13 @@
         <div class="wrapped-summary">
             <h2>Your Summary</h2>
             
-            {% if wrapped %}
-                <p>
-                    <strong>{{ user_name }}'s Movie Year in Review:</strong>
-                </p>
-                <p>
-                    You watched <strong>{{ total_movies }} movies</strong> this year with an average rating of <strong>{{ avg_rating }}/10</strong>. 
-                    Your highest-rated movie was <strong>{{ top_movie }}</strong>, and you seem to be a fan of <strong>{{ top_actor }}</strong>.
-                </p>
-                {% if wrapped.most_watched_movie %}
-                    <p>Your most watched movie was <strong>{{ wrapped.most_watched_movie }}</strong>.</p>
-                {% endif %}
-            {% else %}
-                <p>
-                    You've been quite the movie fan this year! With <strong>{{ total_movies }} movies</strong> watched and an average rating of <strong>{{ avg_rating }}/10</strong>,
-                    you clearly have great taste in cinema. Your highest-rated movie is <strong>{{ top_movie }}</strong>, and your favorite actor is <strong>{{ top_actor }}</strong>.
-                </p>
-                <p style="margin-top: 1rem; font-style: italic;">
-                    Keep watching and rating movies to get more personalized insights in your next wrapped!
-                </p>
-            {% endif %}
+            <p>
+                <strong>{{ user_name }}'s Movie Year in Review:</strong>
+            </p>
+            <p>
+                You watched <strong>{{ total_movies }} movies</strong> this year with an average rating of <strong>{{ avg_rating }}/10</strong>. 
+                Your highest-rated movie was <strong>{{ top_movie }}</strong>, and you seem to be a fan of <strong>{{ top_actor }}</strong>.
+            </p>
         </div>
         
         <div style="text-align: center; margin-top: 2rem;">

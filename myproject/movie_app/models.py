@@ -71,20 +71,21 @@ class WatchHistory(models.Model):
 
     def str(self):
         return f"{self.user.name} watched {self.movie.title} on {self.watch_date}"
-
+    
     class Meta:
         db_table = 'watch_history'  # Point to existing 'watch_history' table
-        
+
 class WrappedSummary(models.Model):
     summary_id = models.AutoField(primary_key=True)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    top_genre = models.CharField(max_length=100)
+
     top_actor = models.CharField(max_length=100)
-    most_watched_movie = models.CharField(max_length=200)
     total_movies_watched = models.IntegerField()
+    avg_rating = models.DecimalField(max_digits=4, decimal_places=2, null=True, blank=True)
+    highest_rated_movie = models.CharField(max_length=200, null=True, blank=True)
 
     def __str__(self):
         return f"{self.user.name}'s summary"
     
     class Meta:
-        db_table = 'wrapped_summary'  # Point to existing 'wrapped_summary' table
+        db_table = 'wrapped_summary'

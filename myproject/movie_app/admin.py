@@ -39,6 +39,6 @@ class WatchHistoryAdmin(admin.ModelAdmin):
 
 @admin.register(WrappedSummary)
 class WrappedSummaryAdmin(admin.ModelAdmin):
-    list_display = ('summary_id', 'user_id', 'top_genre', 'top_actor', 'most_watched_movie', 'total_movies_watched')
-    search_fields = ('user_id', 'top_genre', 'top_actor')
-    list_filter = ('top_genre',)
+    list_display = ('summary_id', 'user_id', 'avg_rating', 'highest_rated_movie', 'top_actor', 'total_movies_watched')
+    search_fields = ('user_id', 'top_actor', 'highest_rated_movie')
+    list_filter = ('top_actor',)
