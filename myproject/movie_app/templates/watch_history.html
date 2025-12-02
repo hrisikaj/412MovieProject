@@ -1,0 +1,73 @@
+{% extends 'base.html' %}
+
+{% block title %}Watch History - Movie Wrapped{% endblock %}
+
+{% block content %}
+    <h1>Your Watch History</h1>
+    <p style="color: #666; margin-bottom: 1.5rem;">Total movies watched: <strong>{{ total_watched }}</strong></p>
+    
+    {% if watch_history %}
+        <table style="width: 100%; border-collapse: collapse; margin-top: 1rem;">
+            <thead>
+                <tr style="background-color: #f5f5f5; border-bottom: 2px solid #ddd;">
+                    <th style="padding: 1rem; text-align: left;">Movie Title</th>
+                    <th style="padding: 1rem; text-align: left;">Year</th>
+                    <th style="padding: 1rem; text-align: left;">Date Watched</th>
+                    <th style="padding: 1rem; text-align: left;">Your Rating</th>
+                    <th style="padding: 1rem; text-align: left;">Review</th>
+                    <th style="padding: 1rem; text-align: center;">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for entry in watch_history %}
+                    <tr style="border-bottom: 1px solid #eee; transition: background-color 0.2s;" onmouseover="this.style.backgroundColor='#f9f9f9'" onmouseout="this.style.backgroundColor='transparent'">
+                        <td style="padding: 1rem; font-weight: 600;">{{ entry.movie.title }}</td>
+                        <td style="padding: 1rem;">{{ entry.movie.release_year }}</td>
+                        <td style="padding: 1rem;">{{ entry.watch_date|date:"M d, Y" }}</td>
+                        <td style="padding: 1rem;">
+                            <span style="background-color: #FFD700; padding: 0.25rem 0.75rem; border-radius: 20px; font-weight: bold;">
+                                ⭐ {{ entry.rating }}/10
+                            </span>
+                        </td>
+                        <td style="padding: 1rem; color: #666;">
+                            {% if entry.review %}
+                                {{ entry.review|truncatewords:10 }}
+                            {% else %}
+                                <em>No review</em>
+                            {% endif %}
+                        </td>
+                        <td style="padding: 1rem; text-align: center;">
+                            <a href="{% url 'edit_watch_entry' entry.watched_id %}" class="btn-edit">Edit</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        
+        <div style="margin-top: 2rem;">
+            <a href="{% url 'add_movie' %}" class="btn">Add Another Movie</a>
+            <a href="{% url 'dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
+        </div>
+    {% else %}
+        <p style="text-align: center; color: #666; padding: 2rem; background-color: #f9f9f9; border-radius: 5px;">
+            You haven't watched any movies yet. <a href="{% url 'add_movie' %}" style="color: #667eea; font-weight: bold;">Start logging your movies!</a>
+        </p>
+    {% endif %}
+
+<style>
+    .btn-edit {
+        background-color: #0dcaf0;
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 4px;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: bold;
+        transition: background-color 0.2s;
+    }
+    
+    .btn-edit:hover {
+        background-color: #0bb5e0;
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block title %}Register - Movie Wrapped{% endblock %}
+
+{% block content %}
+    <div style="max-width: 500px; margin: 0 auto;">
+        <h1 style="text-align: center; margin-bottom: 2rem;">Create Your Account</h1>
+        
+        <form method="POST" style="display: flex; flex-direction: column; gap: 1rem;">
+            {% csrf_token %}
+            
+            {% for field in form %}
+                <div class="form-group">
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.errors %}
+                        <div style="color: #dc3545; font-size: 0.875rem; margin-top: 0.5rem;">
+                            {% for error in field.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            
+            <button type="submit" class="btn" style="width: 100%;">Register</button>
+        </form>
+        
+        <p style="text-align: center; margin-top: 1.5rem;">
+            Already have an account? <a href="{% url 'login' %}" style="color: #667eea; text-decoration: none; font-weight: bold;">Login here</a>
+        </p>
+    </div>
+{% endblock %}

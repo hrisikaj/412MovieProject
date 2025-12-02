@@ -3,15 +3,15 @@ from .models import Actor, Director, CastCrew, Movie, User, WatchHistory, Wrappe
 
 @admin.register(Actor)
 class ActorAdmin(admin.ModelAdmin):
-    list_display = ('actor_id', 'name', 'birthyear')
+    list_display = ('actor_id', 'name', 'birth_year')
     search_fields = ('name',)
-    list_filter = ('birthyear',)
+    list_filter = ('birth_year',)
 
 @admin.register(Director)
 class DirectorAdmin(admin.ModelAdmin):
-    list_display = ('director_id', 'name', 'birthyear')
+    list_display = ('director_id', 'name', 'birth_year')
     search_fields = ('name',)
-    list_filter = ('birthyear',)
+    list_filter = ('birth_year',)
 
 @admin.register(CastCrew)
 class CastCrewAdmin(admin.ModelAdmin):
@@ -20,15 +20,15 @@ class CastCrewAdmin(admin.ModelAdmin):
 
 @admin.register(Movie)
 class MovieAdmin(admin.ModelAdmin):
-    list_display = ('movie_id', 'title', 'release_year', 'genre', 'rating')
-    search_fields = ('title', 'genre')
-    list_filter = ('release_year', 'genre')
+    list_display = ('movie_id', 'title', 'release_year', 'runtime')
+    search_fields = ('title',)
+    list_filter = ('release_year',)
 
 @admin.register(User)
 class UserAdmin(admin.ModelAdmin):
-    list_display = ('user_id', 'name', 'birthyear', 'profile_picture')
+    list_display = ('user_id', 'name', 'birthday', 'profile_picture')
     search_fields = ('name', 'user_id')
-    list_filter = ('birthyear',)
+    list_filter = ('birthday',)
 
 
 @admin.register(WatchHistory)
@@ -39,6 +39,6 @@ class WatchHistoryAdmin(admin.ModelAdmin):
 
 @admin.register(WrappedSummary)
 class WrappedSummaryAdmin(admin.ModelAdmin):
-    list_display = ('summary_id', 'user_id', 'top_genre', 'top_actor', 'most_watched_movie', 'total_movies_watched')
-    search_fields = ('user_id', 'top_genre', 'top_actor')
-    list_filter = ('top_genre',)
+    list_display = ('summary_id', 'user_id', 'avg_rating', 'highest_rated_movie', 'top_actor', 'total_movies_watched')
+    search_fields = ('user_id', 'top_actor', 'highest_rated_movie')
+    list_filter = ('top_actor',)
